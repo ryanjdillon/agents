@@ -17,8 +17,12 @@ when the only thing that needs it is the person regenerating the file.
 2. Run the compose:
 
    ```bash
-   nix run 'github:ryanjdillon/agents#compose'
+   nix run --refresh 'github:ryanjdillon/agents#compose'
    ```
+
+   `--refresh` matters: without it Nix serves the flake from its tarball cache
+   for up to an hour, so a base change pushed minutes ago composes silently
+   stale.
 
    It writes `AGENTS.md` and `agents.just`, and symlinks `CLAUDE.md` to
    `AGENTS.md`.

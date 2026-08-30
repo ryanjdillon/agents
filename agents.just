@@ -2,9 +2,10 @@
 agents_rev := "main"
 
 # Recompose AGENTS.md and agents.just from the shared base plus this repo's overlay.
+# --refresh defeats nix's flake cache, which otherwise serves a stale base.
 agents:
-    nix run "github:ryanjdillon/agents/{{agents_rev}}#compose"
+    nix run --refresh "github:ryanjdillon/agents/{{agents_rev}}#compose"
 
 # Fail if the committed AGENTS.md or agents.just have drifted from their sources.
 agents-check:
-    nix run "github:ryanjdillon/agents/{{agents_rev}}#compose" -- --check
+    nix run --refresh "github:ryanjdillon/agents/{{agents_rev}}#compose" -- --check
