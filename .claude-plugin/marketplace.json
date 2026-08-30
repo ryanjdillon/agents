@@ -1,0 +1,13 @@
+{
+  "name": "ryanjdillon-agents",
+  "owner": {
+    "name": "Ryan Dillon"
+  },
+  "plugins": [
+    {
+      "name": "ryanjdillon-agents",
+      "source": "./",
+      "description": "Personal agent skills and shared conventions"
+    }
+  ]
+}
