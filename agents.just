@@ -1,12 +1,10 @@
+# Pin the shared base here. "main" tracks latest; set a tag or SHA to freeze.
+agents_rev := "main"
+
 # Recompose AGENTS.md and agents.just from the shared base plus this repo's overlay.
 agents:
-    nix run .#compose
-
-# Pull the latest shared base, then recompose.
-agents-update:
-    nix flake update agents
-    just agents
+    nix run "github:ryanjdillon/agents/{{agents_rev}}#compose"
 
 # Fail if the committed AGENTS.md or agents.just have drifted from their sources.
 agents-check:
-    nix run .#compose -- --check
+    nix run "github:ryanjdillon/agents/{{agents_rev}}#compose" -- --check

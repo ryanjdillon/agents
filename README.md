@@ -23,8 +23,10 @@ generated from `AGENTS.base.md` plus its own `AGENTS.repo.md`. Every tool reads
 one complete file — no `@import` following, no submodule checkout, and the file
 still works for a reader with none of this tooling installed.
 
-**Pinned by `flake.lock`.** The base is a flake input, so upgrades are explicit
-and reproducible: `nix flake update agents && just agents`.
+**A generator, not a dependency.** Consuming repos do not take this as a flake
+input — an input is fetched on every evaluation by everyone, and only the person
+regenerating the file needs the base. `just agents` runs it on demand; the
+`agents_rev` variable pins it when a repo wants that.
 
 **Thin base, deep docs.** `AGENTS.base.md` loads in every session of every repo,
 so it stays around 100 lines. Anything longer lives in `docs/` and is read only
