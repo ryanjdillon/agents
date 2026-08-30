@@ -9,6 +9,8 @@ out="AGENTS.md"
 just_out="agents.just"
 check=0
 link_claude=0
+write_just=1
+overlay_first=0
 
 usage() {
   cat <<'USAGE'
@@ -18,6 +20,9 @@ usage: compose [options]
   --overlay FILE   repo overlay (default: AGENTS.repo.md)
   --out FILE       composed output (default: AGENTS.md)
   --just-out FILE  composed just recipes (default: agents.just)
+  --no-just        do not write the just recipes at all
+  --overlay-first  put the overlay above the base, for a file whose own framing
+                   must be read first
   --check          verify the committed outputs are up to date; write nothing
   --claude-link    also symlink CLAUDE.md to the composed output. Not needed for
                    Claude Code, which reads AGENTS.md directly; only for tools
@@ -130,7 +135,9 @@ write_or_check() {
 
 status=0
 write_or_check "$out" render || status=1
-write_or_check "$just_out" render_just || status=1
+if [ "$write_just" -eq 1 ]; then
+  write_or_check "$just_out" render_just || status=1
+fi
 
 if [ "$link_claude" -eq 1 ] && [ "$check" -eq 0 ]; then
   if [ ! -L CLAUDE.md ] || [ "$(readlink CLAUDE.md)" != "$out" ]; then

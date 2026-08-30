@@ -29,8 +29,9 @@ regenerating the file needs the base. `just agents` runs it on demand; the
 `agents_rev` variable pins it when a repo wants that.
 
 **Thin base, deep docs.** `AGENTS.base.md` loads in every session of every repo,
-so it stays around 100 lines. Anything longer lives in `docs/` and is read only
-when it is needed.
+so its length is a recurring cost multiplied across all of them. It is capped at
+150 lines and the cap is enforced by `nix flake check`; anything longer lives in
+`docs/` and is read only when needed.
 
 **No tool dependency.** Nothing here requires a particular agent runtime or Nix
 distribution. `scripts/compose.sh` is plain bash; `scripts/validate-skills.py`
