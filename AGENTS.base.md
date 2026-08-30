@@ -100,6 +100,17 @@ See `docs/doc-discipline.md`.
 - Strip trailing whitespace before staging.
 - No references to the tooling or model that produced the change.
 - Reference the Linear issue.
+- **Never assume git state.** Check `git status` / `git log` before acting —
+  do not assume the user has already committed, pushed, or pulled.
+- Stage files by name, not by glob.
+
+## Handing off
+
+Work that outlives a session goes in an untracked `<TOPIC>-HANDOFF.md` written
+for a reader with no prior context — settled decisions, what is verified (with
+SHAs), what remains, and what must not be touched. Never secret values.
+
+See `docs/session-handoff.md`.
 
 ## Memory
 
