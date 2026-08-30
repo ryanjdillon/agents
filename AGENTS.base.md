@@ -15,6 +15,9 @@ the code works; Linear records why work is happening and what is left.
   worth reviewing needs an issue. A body of work spanning several changes needs
   a project with a dependency graph.
 - **Parents before subs.** Create the parent issue first, then decompose.
+- **Close on ship, in the same turn.** An issue left open after its change ships
+  makes the whole board untrustworthy. The exception is an explicit "leave it,
+  I want to look first".
 - **Reference the issue in the commit message** so history and Linear stay linked.
 - **Do not invent issues** to look busy, and do not silently work off-issue.
 
@@ -62,6 +65,14 @@ searches, multi-file reads, research spikes, large tool output.
 - Sub-agent context loss is harmless because Linear holds the durable record.
 
 See `docs/subagents.md`.
+
+## Keep modules deep
+
+A small, narrow interface with as much depth behind it as the domain needs —
+for source and docs alike. One unit per domain; one topic per doc, standing
+alone rather than assembled from fragments across five files.
+
+See `docs/module-organisation.md`.
 
 ## Keep docs honest
 
