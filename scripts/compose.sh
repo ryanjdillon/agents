@@ -52,8 +52,16 @@ while [ $# -gt 0 ]; do
     check=1
     shift
     ;;
-  --no-claude-link)
-    link_claude=0
+  --claude-link)
+    link_claude=1
+    shift
+    ;;
+  --no-just)
+    write_just=0
+    shift
+    ;;
+  --overlay-first)
+    overlay_first=1
     shift
     ;;
   -h | --help)
@@ -99,9 +107,15 @@ render() {
   banner '<!--' '  ' '-->' "<base>/AGENTS.base.md (shared conventions)" \
     "$overlay (this repo)"
   printf '\n'
-  cat "$base/AGENTS.base.md"
-  printf '\n---\n\n'
-  cat "$overlay"
+  if [ "$overlay_first" -eq 1 ]; then
+    cat "$overlay"
+    printf '\n---\n\n'
+    cat "$base/AGENTS.base.md"
+  else
+    cat "$base/AGENTS.base.md"
+    printf '\n---\n\n'
+    cat "$overlay"
+  fi
 }
 
 render_just() {
