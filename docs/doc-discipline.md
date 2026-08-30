@@ -24,3 +24,27 @@ user" is a fact. "I tried X and it failed" is narrative.
 - Every `docs/` tree has an `index.md` listing its contents with one-line hooks.
 - Every substantial directory has a README explaining what lives there and why.
 - Docs live next to what they describe, not in a distant central pile.
+
+## Voice
+
+Concise, never verbose. Lead with the point, order sections the way a reader
+meets the topic, and stop when the point is made. One clear framing beats three
+restatements.
+
+A README is a landing page, not a manual: a short orientation that links into
+the docs. Direct and spoken-word — welcoming without being cutesy, confident
+without selling. Say what the thing does and how to run it; let the quality show
+rather than asserting it.
+
+## Deslop
+
+Cut the tells of machine-written prose:
+
+- No marketing adjectives — `powerful`, `seamless`, `robust`, `blazing-fast`,
+  `elegant`.
+- No `simply` / `just` / `of course` filler.
+- No "it's not just X, it's Y" and no "whether you're… or…" constructions.
+- No rule-of-three padding, throat-clearing intros, or "in summary" outros.
+- No emoji bullets.
+
+Prefer concrete nouns and verbs over hedging.

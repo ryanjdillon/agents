@@ -88,6 +88,8 @@ See `docs/doc-discipline.md`.
 
 - Comments explain **why**, not what. No comment narrates a change, references a
   conversation, or notes that something was removed.
+- Keep comments general to the code, not to one deployment — describe what the
+  code does, not the author's hosts or environment.
 - Match the surrounding code's naming, idiom, and comment density.
 - Destructure imports where the language supports it
   (`import { foo } from 'bar'`).
