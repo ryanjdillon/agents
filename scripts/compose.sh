@@ -8,7 +8,7 @@ overlay="AGENTS.repo.md"
 out="AGENTS.md"
 just_out="agents.just"
 check=0
-link_claude=1
+link_claude=0
 
 usage() {
   cat <<'USAGE'
@@ -19,7 +19,9 @@ usage: compose [options]
   --out FILE       composed output (default: AGENTS.md)
   --just-out FILE  composed just recipes (default: agents.just)
   --check          verify the committed outputs are up to date; write nothing
-  --no-claude-link do not symlink CLAUDE.md to the composed output
+  --claude-link    also symlink CLAUDE.md to the composed output. Not needed for
+                   Claude Code, which reads AGENTS.md directly; only for tools
+                   that look exclusively for CLAUDE.md
 USAGE
 }
 

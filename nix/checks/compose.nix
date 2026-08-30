@@ -11,9 +11,9 @@ let
 in
 pkgs.runCommand "check-compose" { nativeBuildInputs = [ pkgs.diffutils ]; } ''
   cp ${base}/templates/AGENTS.repo.md AGENTS.repo.md
-  AGENTS_BASE=${base} bash ${inputs.self}/scripts/compose.sh --no-claude-link
+  AGENTS_BASE=${base} bash ${inputs.self}/scripts/compose.sh 
   grep -q "GENERATED FILE" AGENTS.md
   grep -q "GENERATED FILE" agents.just
-  AGENTS_BASE=${base} bash ${inputs.self}/scripts/compose.sh --check --no-claude-link
+  AGENTS_BASE=${base} bash ${inputs.self}/scripts/compose.sh --check 
   touch "$out"
 ''

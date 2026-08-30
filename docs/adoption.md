@@ -24,11 +24,13 @@ when the only thing that needs it is the person regenerating the file.
    for up to an hour, so a base change pushed minutes ago composes silently
    stale.
 
-   It writes `AGENTS.md` and `agents.just`, and symlinks `CLAUDE.md` to
-   `AGENTS.md`.
+   It writes `AGENTS.md` and `agents.just`.
 3. Add `import 'agents.just'` at the top of the repo justfile.
-4. Commit `AGENTS.md`, `agents.just`, `AGENTS.repo.md`, and the `CLAUDE.md`
-   symlink.
+4. Commit `AGENTS.md`, `agents.just`, and `AGENTS.repo.md`.
+
+No `CLAUDE.md` is created. Claude Code reads `AGENTS.md` directly (verified
+against 2.1.233), as do Codex and opencode. Pass `--claude-link` only for a tool
+that looks exclusively for `CLAUDE.md`.
 
 The repo's own `flake.nix` is untouched.
 
