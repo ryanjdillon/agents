@@ -10,4 +10,5 @@ reasoning and the edge cases.
 - [Doc discipline](doc-discipline.md) — docs alongside code, write-back
 - [Session handoff](session-handoff.md) — carrying state across sessions
 - [Memory](memory.md) — what is worth persisting
+- [Python](languages/python.md) — language conventions, including tests
 - [Adoption](adoption.md) — how a repo consumes this base

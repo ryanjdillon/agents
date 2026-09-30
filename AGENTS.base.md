@@ -93,6 +93,9 @@ See `docs/doc-discipline.md`.
 - Match the surrounding code's naming, idiom, and comment density.
 - Destructure imports where the language supports it
   (`import { foo } from 'bar'`).
+- **Python tests** use spec-bound mocks (`create_autospec`) injected as
+  parameters: no bare `MagicMock`, hand-rolled fakes, or `monkeypatch.setattr`
+  on collaborators. See `docs/languages/python.md`.
 
 ## Commits
 
