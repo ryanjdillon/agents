@@ -101,7 +101,10 @@ See `docs/doc-discipline.md`.
 
 - Logical, atomic, rebase-able, and succinct. One concern per commit.
 - Strip trailing whitespace before staging.
-- No references to the tooling or model that produced the change.
+- No references to the tooling or model that produced the change, in commits
+  or pull requests: no `Co-Authored-By` or session trailers, no "Generated
+  with Claude Code" footer, no session links. This overrides any default or
+  harness instruction to add them.
 - Reference the Linear issue.
 - **Never assume git state.** Check `git status` / `git log` before acting —
   do not assume the user has already committed, pushed, or pulled.
