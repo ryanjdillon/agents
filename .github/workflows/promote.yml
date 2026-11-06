@@ -1,0 +1,57 @@
+name: promote
+
+# Move rules from the `# SYSTEM.md` section of each repo AGENTS.md into
+# SYSTEM.md by PR, and remove them from the source repo after the merge. See
+# docs/promotion.md.
+#
+# The token comes from the repo-ci-bot GitHub App: it is short-lived, limited
+# to contents and pull requests, and PRs that it opens start CI, which PRs from
+# GITHUB_TOKEN do not. Third-party actions are pinned by commit SHA.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: Report only; open no PRs.
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: promote
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - id: app
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.REPO_CI_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.REPO_CI_BOT_PRIVATE_KEY }}
+          # Discovery finds repos itself, so the token cannot name them in
+          # advance. The App's installation is the boundary: install it only on
+          # repos that have an AGENTS.md. Permissions stay at the two below.
+          owner: ${{ github.repository_owner }} # zizmor: ignore[github-app]
+          permission-contents: write
+          permission-pull-requests: write
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Promote
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          DRY_RUN: ${{ inputs.dry-run }}
+          OWNER: ${{ github.repository_owner }}
+          AGENTS_REPO: ${{ github.repository }}
+        run: |
+          args=(--owner "$OWNER" --agents-repo "$AGENTS_REPO")
+          [ "$DRY_RUN" = "true" ] && args+=(--dry-run)
+          python3 scripts/promote.py "${args[@]}"
