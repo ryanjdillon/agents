@@ -25,8 +25,7 @@ jobs:
       - name: Skills
         run: python3 scripts/validate-skills.py skills
 
-      # TODO(DIL-784): replace main with the merge commit SHA.
-      - uses: ryanjdillon/workflows/check-instructions@main
+      - uses: ryanjdillon/workflows/check-instructions@eb0eae46c65049d246c8c84471206619c38f0115 # main
         with:
           files: SYSTEM.md AGENTS.md
 
