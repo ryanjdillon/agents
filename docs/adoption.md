@@ -1,63 +1,37 @@
-# Adopting the base in a repo
+# Adopting the rules in a repo
 
-## Mechanism
+## How it works
 
-The base is a **maintainer-side generator**, not a build dependency. A compose
-step writes a **committed** `AGENTS.md` from the base plus the repo's overlay,
-so every tool — Claude, Codex, opencode, or a human — reads one complete file
-with no import-following, no submodule, and no flake input.
+Two files give an agent its rules:
 
-That last point matters: a flake input is fetched whenever the consuming flake
-is evaluated, by everyone, forever. The base has no business being in that path
-when the only thing that needs it is the person regenerating the file.
+- `SYSTEM.md` in this repo has the rules for all repos. Your agent tools load
+  it as the system prompt, from a checkout of this repo or from the `base`
+  package of this flake.
+- `AGENTS.md` in each repo has the rules for that repo. The repo commits it,
+  and you edit it by hand.
 
-## Setup
+A consuming repo does not contain a copy of `SYSTEM.md`. It also does not take
+this repo as a flake input. Nix fetches each flake input when it evaluates the
+flake, for each user. Only your tool config needs `SYSTEM.md`.
 
-1. Copy `templates/AGENTS.repo.md` to `AGENTS.repo.md` and fill it in.
-2. Run the compose:
+## Set up a repo
 
-   ```bash
-   nix run --refresh 'github:ryanjdillon/agents#compose'
-   ```
+1. Copy `templates/AGENTS.md` to `AGENTS.md` in the repo.
+2. Write the repo rules in it.
+3. Keep the `# SYSTEM.md` section at the end. See `promotion.md`.
+4. Commit `AGENTS.md`.
 
-   `--refresh` matters: without it Nix serves the flake from its tarball cache
-   for up to an hour, so a base change pushed minutes ago composes silently
-   stale.
+Claude Code, Codex, and opencode read `AGENTS.md` directly. Do not add a
+`CLAUDE.md`.
 
-   It writes `AGENTS.md` and `agents.just`.
-3. Add `import 'agents.just'` at the top of the repo justfile.
-4. Commit `AGENTS.md`, `agents.just`, and `AGENTS.repo.md`.
+## Load SYSTEM.md in your tools
 
-No `CLAUDE.md` is created. Claude Code reads `AGENTS.md` directly (verified
-against 2.1.233), as do Codex and opencode. Pass `--claude-link` only for a tool
-that looks exclusively for `CLAUDE.md`.
+Point each tool at `SYSTEM.md` in its user-level config. For example:
 
-The repo's own `flake.nix` is untouched.
+- Claude Code: import it from `~/.claude/CLAUDE.md` with
+  `@/path/to/agents/SYSTEM.md`.
+- Codex: put it in `~/.codex/AGENTS.md`.
 
-## Pinning
+The `base` package of this flake contains `SYSTEM.md` and `docs/`. A Nix
+system config can use that package to put `SYSTEM.md` in these locations.
 
-`agents.just` carries an `agents_rev` variable, defaulting to `main`. Set it to
-a tag or SHA to freeze the base for that repo. Because the composed output is
-committed, an unpinned base still cannot change a repo silently — it can only
-produce a diff you review before committing.
-
-## Without Nix
-
-```bash
-git clone https://github.com/ryanjdillon/agents /path/to/agents
-/path/to/agents/scripts/compose.sh --base /path/to/agents
-```
-
-The script is plain bash with no dependency on Nix or on any agent tool.
-
-## Keeping it honest
-
-`AGENTS.md` and `agents.just` are generated and carry a banner saying so. Wire
-`just agents-check` into CI so a hand-edit or a stale base fails the build
-instead of rotting quietly.
-
-## Updating
-
-```bash
-just agents    # recompose against agents_rev
-```

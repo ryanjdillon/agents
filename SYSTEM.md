@@ -1,8 +1,9 @@
 # Agent conventions
 
-Shared across all my repos. Repo-specific detail lives in the overlay below the
-separator. The deeper reasoning behind each rule is in `docs/` — read a doc when
-you need the *why* or an edge case, not by default.
+These rules apply to all my repos. Each repo adds its own rules in its
+`AGENTS.md`. The reasons for each rule are in the `docs/` directory of
+<https://github.com/ryanjdillon/agents>. Read a doc only when you need the
+reason or an edge case.
 
 ## Plan on Linear
 
@@ -125,3 +126,10 @@ guidance you were given and why, project constraints, external references.
 Do not record what the code, git history, or this file already says.
 
 See `docs/memory.md`.
+
+## Promote rules to SYSTEM.md
+
+A repo `AGENTS.md` ends with a `# SYSTEM.md` section. Put a rule there when it
+must apply to all repos. A periodic process moves it into this file by PR.
+
+See `docs/promotion.md`.

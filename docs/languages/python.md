@@ -1,7 +1,7 @@
 # Python
 
-Conventions for Python code in any repo that composes this base. The base rules
-still apply; this page adds what is specific to Python.
+Rules for Python code in all repos. The rules in `SYSTEM.md` also apply. This
+page adds the rules that are specific to Python.
 
 ## Tests
 
