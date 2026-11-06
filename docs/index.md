@@ -11,5 +11,6 @@ reasons and the edge cases.
 - [Session handoff](session-handoff.md) — carrying state across sessions
 - [Memory](memory.md) — what is worth persisting
 - [Python](languages/python.md) — language conventions, including tests
+- [Simplified Technical English](simplified-technical-english.md) — STE rules for prose and names in code
 - [Promotion](promotion.md) — move a repo rule into SYSTEM.md
 - [Adoption](adoption.md) — load SYSTEM.md and set up a repo AGENTS.md

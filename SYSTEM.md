@@ -85,6 +85,20 @@ See `docs/module-organisation.md`.
 
 See `docs/doc-discipline.md`.
 
+## Write in Simplified Technical English
+
+Use ASD-STE100 Simplified Technical English (STE) for all prose that you
+write: docs, READMEs, docstrings, comments, commit messages, PR descriptions,
+and Linear issues.
+
+- One topic in each sentence, 20 words or fewer (25 for descriptions).
+- Active voice, simple tenses, and instructions as commands.
+- One word for one meaning, and the same word each time.
+- Apply this to names in code too: one term for one concept, plain words,
+  and verbs for actions (`load_config`, not `config_handler`).
+
+See `docs/simplified-technical-english.md`.
+
 ## Code and comments
 
 - Comments explain **why**, not what. No comment narrates a change, references a
