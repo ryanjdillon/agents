@@ -112,6 +112,17 @@ See `docs/simplified-technical-english.md`.
   parameters: no bare `MagicMock`, hand-rolled fakes, or `monkeypatch.setattr`
   on collaborators. See `docs/languages/python.md`.
 
+## Checks and CI
+
+- Declare dependencies and dev tools only in the language manifest
+  (`pyproject.toml`, `Cargo.toml`). Nix supplies only the toolchains.
+- Define each check one time, as a `just` recipe. Hooks and CI call it.
+- CI is the gate, and it does not install Nix. A separate workflow runs Nix
+  checks only when Nix files change.
+- Lock with hashes, use `--locked`, and pin actions by SHA.
+
+See `docs/ci-and-checks.md`.
+
 ## Commits
 
 - Logical, atomic, rebase-able, and succinct. One concern per commit.
