@@ -26,12 +26,26 @@ Claude Code, Codex, and opencode read `AGENTS.md` directly. Do not add a
 
 ## Load SYSTEM.md in your tools
 
-Point each tool at `SYSTEM.md` in its user-level config. For example:
+Put `SYSTEM.md` at a stable path, for example `~/.config/agents/SYSTEM.md`.
+Then point each tool at it in its user-level config:
 
-- Claude Code: import it from `~/.claude/CLAUDE.md` with
-  `@/path/to/agents/SYSTEM.md`.
-- Codex: put it in `~/.codex/AGENTS.md`.
+| Tool | User-level config |
+| --- | --- |
+| Claude Code | Add `@~/.config/agents/SYSTEM.md` to `~/.claude/CLAUDE.md`. An import in the user-level file loads without an approval dialog. |
+| Codex | `~/.codex/AGENTS.md` (or `$CODEX_HOME/AGENTS.md`). Codex reads only the first file that is not empty, and `AGENTS.override.md` comes before `AGENTS.md`. |
+| opencode | `~/.config/opencode/AGENTS.md`, or a path in `instructions` in `~/.config/opencode/opencode.json`. |
+
+opencode does not read `@` imports, and the Codex docs do not describe them.
+For these tools, link or copy `SYSTEM.md` to the path.
 
 The `base` package of this flake contains `SYSTEM.md` and `docs/`. A Nix
-system config can use that package to put `SYSTEM.md` in these locations.
+system config can link `SYSTEM.md` from that package to these paths. Then the
+flake lock of the system config is the pin.
 
+Claude Code reads skills only from `.claude/skills` directories, not from
+`.agents/skills`.
+
+Sources: <https://code.claude.com/docs/en/memory>,
+<https://code.claude.com/docs/en/skills>,
+<https://learn.chatgpt.com/docs/agent-configuration/agents-md>,
+<https://opencode.ai/docs/rules/>.
