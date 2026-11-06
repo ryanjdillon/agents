@@ -1,0 +1,21 @@
+# Run with prek (or pre-commit): `prek install` one time in each clone.
+# CI runs the same checks without these hooks. See docs/ci-and-checks.md.
+repos:
+  - repo: local
+    hooks:
+      - id: check-skills
+        name: check skills
+        entry: just check-skills
+        language: system
+        pass_filenames: false
+        files: ^skills/
+      - id: treefmt
+        name: treefmt
+        entry: nix fmt -- --fail-on-change
+        language: system
+        pass_filenames: false
+  # TODO(DIL-784): replace main with the merge commit SHA.
+  - repo: https://github.com/ryanjdillon/workflows
+    rev: main
+    hooks:
+      - id: check-instructions

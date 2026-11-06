@@ -1,0 +1,40 @@
+name: check
+
+# CI does not install Nix: a cold install and toolchain download cost minutes
+# on each run. The checks here run with the runner's Python and pinned actions.
+# Changes to Nix files also run nix.yml.
+#
+# Third-party actions are pinned by commit SHA: a tag is mutable.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Skills
+        run: python3 scripts/validate-skills.py skills
+
+      # TODO(DIL-784): replace main with the merge commit SHA.
+      - uses: ryanjdillon/workflows/check-instructions@main
+        with:
+          files: SYSTEM.md AGENTS.md
+
+      - uses: astral-sh/ruff-action@278981a28ce3188b1e39527901f38254bf3aac89 # v4.1.0
+        with:
+          version: 0.17.4
+          args: format --check
+
+      - uses: astral-sh/ruff-action@278981a28ce3188b1e39527901f38254bf3aac89 # v4.1.0
+        with:
+          version: 0.17.4

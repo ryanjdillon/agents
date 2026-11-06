@@ -11,6 +11,12 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Shared checks. The same scripts run in CI through their GitHub Actions
+    # adapters, so this lock and the CI pin select the version.
+    workflows = {
+      url = "github:ryanjdillon/workflows";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

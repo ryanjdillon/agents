@@ -10,6 +10,7 @@ reasons and the edge cases.
 - [Doc discipline](doc-discipline.md) — docs alongside code, write-back
 - [Session handoff](session-handoff.md) — carrying state across sessions
 - [Memory](memory.md) — what is worth persisting
+- [Checks and CI](ci-and-checks.md) — manifests, one definition for each check, supply chain
 - [Python](languages/python.md) — language conventions, including tests
 - [Simplified Technical English](simplified-technical-english.md) — STE rules for prose and names in code
 - [System prompt](system-prompt.md) — size, the admission test, where a rule goes

@@ -1,0 +1,18 @@
+name: nix
+
+# Nix checks run only when Nix files change, so normal CI stays fast.
+
+on:
+  pull_request:
+    paths: ["**.nix", "flake.lock"]
+  push:
+    branches: [main]
+    paths: ["**.nix", "flake.lock"]
+
+permissions:
+  contents: read
+
+jobs:
+  nix:
+    # TODO(DIL-784): replace main with the merge commit SHA.
+    uses: ryanjdillon/workflows/.github/workflows/nix-check.yml@main
