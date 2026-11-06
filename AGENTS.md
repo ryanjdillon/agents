@@ -16,6 +16,8 @@ prek install          # one time: run the hooks on each commit
 just check            # nix flake check: format, skills, instruction files
 just check-instructions
 just check-skills
+just test             # unit tests for scripts/promote.py
+just promote          # dry run of the promotion process
 just fmt
 ```
 
@@ -41,6 +43,7 @@ just fmt
 | The admission test | `docs/system-prompt.md` |
 | The size limits | `check-instructions.py` in `ryanjdillon/workflows`, and `docs/system-prompt.md` |
 | The `ryanjdillon/workflows` pin | `flake.lock`, `.pre-commit-config.yaml`, and both workflows in `.github/workflows/`, to the same commit |
+| `scripts/promote.py` | `docs/promotion.md` and `scripts/test_promote.py` |
 | The `# SYSTEM.md` section format | `docs/promotion.md`, `templates/AGENTS.md` |
 | How a repo loads or adopts the rules | `docs/adoption.md`, `README.md` |
 
