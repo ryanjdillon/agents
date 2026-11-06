@@ -223,7 +223,7 @@ class ReconcileTest(unittest.TestCase):
         github = self.make_github()
         github.read_file.side_effect = None
         github.read_file.return_value = None
-        self.assertEqual(reconcile(github, "o/r", "o/agents", [], set(), False), [])
+        self.assertIsNone(reconcile(github, "o/r", "o/agents", [], set(), False))
 
 
 class RunTest(unittest.TestCase):
@@ -239,6 +239,20 @@ class RunTest(unittest.TestCase):
         self.assertFalse(ok)
         self.assertIn("- error: boom", report)
         self.assertEqual(github.read_file.call_count, 2)
+
+    def test_report_lists_scanned_repos(self):
+        github = create_autospec(GitHub, instance=True)
+        github.all_pulls.return_value = []
+        github.repos.return_value = ["o/empty", "o/none"]
+        empty = f"# r\n\n# SYSTEM.md\n\n{COMMENT}\n"
+        github.read_file.side_effect = [(empty, "blob", "main"), None]
+
+        report, ok = promote.run(github, "o", "o/agents", [], dry_run=True)
+
+        self.assertTrue(ok)
+        self.assertTrue(report.startswith("No rules to promote."))
+        self.assertIn("Scanned 2 repos: o/empty, o/none.", report)
+        self.assertIn("With a `# SYSTEM.md` section: o/empty.", report)
 
 
 if __name__ == "__main__":

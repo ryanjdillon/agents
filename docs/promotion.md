@@ -47,6 +47,9 @@ in the source repo. Then, for each rule:
 | A merged promotion PR | Opens a PR that removes the rule from the source repo |
 | A promotion PR that was closed without a merge | Reports it as rejected |
 
+The summary of each run lists the repos that it scanned, and the repos that
+have a section. If a repo is not in the list, the App is not installed on it.
+
 A promotion PR adds the rules above the "Promote rules to SYSTEM.md" section
 of `SYSTEM.md`. A hidden marker in the PR body records the source repo, the
 commit, and the hash of each rule.

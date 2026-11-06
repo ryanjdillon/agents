@@ -399,14 +399,29 @@ def run(
     agents_heads = {p["head"]["ref"] for p in pulls}
     report: list[str] = []
     ok = True
-    for repo in only or gh.repos(owner):
+    repos = only or gh.repos(owner)
+    with_section: list[str] = []
+    for repo in repos:
         # One repo's API error must not stop the others; report it and go on.
         try:
-            report += reconcile(gh, repo, agents_repo, prs, agents_heads, dry_run)
+            lines = reconcile(gh, repo, agents_repo, prs, agents_heads, dry_run)
         except GitHubError as error:
             report += [f"## {repo}", f"- error: {error}"]
             ok = False
-    return ("\n".join(report) if report else "No rules to promote."), ok
+            continue
+        if lines is not None:
+            with_section.append(repo)
+            report += lines
+    # List what was scanned: "no rules" must be distinguishable from "the
+    # token reached no repos", which looks the same otherwise.
+    report += [
+        "",
+        f"Scanned {len(repos)} repos: {', '.join(repos) or 'none'}.",
+        f"With a `# SYSTEM.md` section: {', '.join(with_section) or 'none'}.",
+    ]
+    if not any(line.startswith("## ") for line in report):
+        report.insert(0, "No rules to promote.")
+    return "\n".join(report).strip(), ok
 
 
 def reconcile(
@@ -416,14 +431,17 @@ def reconcile(
     prs: list[PromotionPR],
     agents_heads: set[str],
     dry_run: bool,
-) -> list[str]:
+) -> list[str] | None:
+    """Act on one repo. Return report lines, or None if it has no section."""
     report: list[str] = []
     found = gh.read_file(repo, "AGENTS.md")
     if found is None:
-        return report
+        return None
     text, blob_sha, branch = found
     section = parse_section(text)
-    if section is None or not section.rules:
+    if section is None:
+        return None
+    if not section.rules:
         return report
     plan = plan_repo(repo, section, prs)
     commit = gh.head_commit(repo, branch)
