@@ -26,21 +26,25 @@ Claude Code, Codex, and opencode read `AGENTS.md` directly. Do not add a
 
 ## Load SYSTEM.md in your tools
 
-Put `SYSTEM.md` at a stable path, for example `~/.config/agents/SYSTEM.md`.
-Then point each tool at it in its user-level config:
+Point each tool at `SYSTEM.md` when it starts, or in its user-level config:
 
-| Tool | User-level config |
+| Tool | How to load SYSTEM.md |
 | --- | --- |
-| Claude Code | Add `@~/.config/agents/SYSTEM.md` to `~/.claude/CLAUDE.md`. An import in the user-level file loads without an approval dialog. |
+| Claude Code | Start `claude` with `--append-system-prompt-file /path/to/SYSTEM.md`, for example in a wrapper script. |
 | Codex | `~/.codex/AGENTS.md` (or `$CODEX_HOME/AGENTS.md`). Codex reads only the first file that is not empty, and `AGENTS.override.md` comes before `AGENTS.md`. |
 | opencode | `~/.config/opencode/AGENTS.md`, or a path in `instructions` in `~/.config/opencode/opencode.json`. |
 
 opencode does not read `@` imports, and the Codex docs do not describe them.
 For these tools, link or copy `SYSTEM.md` to the path.
 
+Do not import `SYSTEM.md` with `@` in `~/.claude/CLAUDE.md` if you use more
+than one Claude Code profile. Each profile that uses the same config directory
+reads that file, so a work profile also gets these rules. A flag in the
+wrapper of each profile applies the rules only to that profile.
+
 The `base` package of this flake contains `SYSTEM.md` and `docs/`. A Nix
-system config can link `SYSTEM.md` from that package to these paths. Then the
-flake lock of the system config is the pin.
+system config can give the store path of `SYSTEM.md` to the flag, or link it to
+the paths above. Then the flake lock of the system config is the pin.
 
 Claude Code reads skills only from `.claude/skills` directories, not from
 `.agents/skills`.
