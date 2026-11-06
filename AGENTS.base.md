@@ -74,6 +74,17 @@ alone rather than assembled from fragments across five files.
 
 See `docs/module-organisation.md`.
 
+## Repository layout
+
+Group by language first, then by package — `python/<package>/src/`,
+`rust/<crate>/src/`, `go/<module>/` — each following that ecosystem's own
+idiomatic internal layout. A bare `src/` at the repo root does not survive a
+second language: it either gets overloaded or a later addition invents an
+inconsistent exception. Decide the top-level split even in a repo that is
+single-language today, if a second language is plausible later.
+
+See `docs/repository-layout.md`.
+
 ## Keep docs honest
 
 - **Docs alongside code, in the same commit.** A change that invalidates a doc
