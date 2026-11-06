@@ -15,7 +15,7 @@ Agent tools load it as the system prompt. Each repo adds its own rules in its
 | `docs/` | The reasons and edge cases for each rule. Agents read them on demand. |
 | `templates/` | Starters for a repo `AGENTS.md` and `docs/index.md`. |
 | `skills/` | Agent skills, one directory for each skill, with a `SKILL.md`. |
-| `scripts/` | `validate-skills.py`. It uses only the Python standard library. |
+| `scripts/` | `validate-skills.py`, and `promote.py` for the promotion process. They use only the Python standard library. |
 
 ## Design
 
