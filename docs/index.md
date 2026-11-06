@@ -1,7 +1,7 @@
 # Agent convention docs
 
-Read these on demand — `AGENTS.base.md` carries the rules, these carry the
-reasoning and the edge cases.
+Read these on demand. `SYSTEM.md` has the rules, and these docs give the
+reasons and the edge cases.
 
 - [Planning on Linear](planning-on-linear.md) — issue lifecycle, tiers, drift detection
 - [Planning strategically](planning-strategically.md) — initiative → project → critical path
@@ -11,4 +11,5 @@ reasoning and the edge cases.
 - [Session handoff](session-handoff.md) — carrying state across sessions
 - [Memory](memory.md) — what is worth persisting
 - [Python](languages/python.md) — language conventions, including tests
-- [Adoption](adoption.md) — how a repo consumes this base
+- [Promotion](promotion.md) — move a repo rule into SYSTEM.md
+- [Adoption](adoption.md) — load SYSTEM.md and set up a repo AGENTS.md

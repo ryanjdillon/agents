@@ -54,3 +54,9 @@ Hosts: <names, and how to reach them>
 ## Known issues
 
 - <non-blocking thing an agent will otherwise trip over and try to "fix">
+
+# SYSTEM.md
+
+<!-- Rules for all repos, not only this repo. A periodic process moves them to
+     SYSTEM.md in ryanjdillon/agents. Keep this heading. See docs/promotion.md
+     in that repo. -->

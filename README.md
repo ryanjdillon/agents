@@ -1,41 +1,44 @@
 # agents
 
-One maintained base for how AI coding agents work across my repos: planning on
-Linear, staying on the critical path, protecting context with sub-agents, and
-keeping docs honest. Repo-specific detail stays in each repo; the reusable
-process lives here once and is referenced everywhere.
+`SYSTEM.md` is one set of rules for how AI coding agents work in all my
+repos: plan on Linear, stay on the critical path, keep context small with
+sub-agents, write in Simplified Technical English, and keep docs correct.
+Agent tools load it as the system prompt. Each repo adds its own rules in its
+`AGENTS.md`.
 
 ## What is in here
 
 | Path | Purpose |
 | --- | --- |
-| `AGENTS.base.md` | The shared conventions. Thin by design — rules only. |
-| `docs/` | The reasoning and edge cases behind each rule, read on demand. |
-| `templates/` | `AGENTS.repo.md` overlay and `docs/index.md` starters. |
-| `skills/` | Agent skills, one directory per skill with a `SKILL.md`. |
-| `scripts/` | `compose.sh` and `validate-skills.py`, both dependency-free. |
-| `agents.just` | Recipes a consuming repo imports. |
+| `SYSTEM.md` | The rules for all repos. Short by design: rules only. |
+| `AGENTS.md` | The rules for this repo. |
+| `docs/` | The reasons and edge cases for each rule. Agents read them on demand. |
+| `templates/` | Starters for a repo `AGENTS.md` and `docs/index.md`. |
+| `skills/` | Agent skills, one directory for each skill, with a `SKILL.md`. |
+| `scripts/` | `validate-skills.py`. It uses only the Python standard library. |
 
 ## Design
 
-**Composed, not imported.** A consuming repo commits a full `AGENTS.md`
-generated from `AGENTS.base.md` plus its own `AGENTS.repo.md`. Every tool reads
-one complete file — no `@import` following, no submodule checkout, and the file
-still works for a reader with none of this tooling installed.
+**System prompt, not a copy.** Agent tools load `SYSTEM.md` from this repo.
+A consuming repo commits only its own `AGENTS.md`. Thus a change to the
+shared rules does not need a change in each repo.
 
-**A generator, not a dependency.** Consuming repos do not take this as a flake
-input — an input is fetched on every evaluation by everyone, and only the person
-regenerating the file needs the base. `just agents` runs it on demand; the
-`agents_rev` variable pins it when a repo wants that.
+**Not a dependency.** Consuming repos do not take this repo as a flake input.
+Nix fetches each input when it evaluates the flake, for each user. Only your
+tool config needs `SYSTEM.md`.
 
-**Thin base, deep docs.** `AGENTS.base.md` loads in every session of every repo,
-so its length is a recurring cost multiplied across all of them. It is capped at
-150 lines and the cap is enforced by `nix flake check`; anything longer lives in
-`docs/` and is read only when needed.
+**Rules move up.** A repo `AGENTS.md` ends with a `# SYSTEM.md` section. A rule
+in that section must apply to all repos. A periodic process moves it into
+`SYSTEM.md` through a PR. See [docs/promotion.md](docs/promotion.md).
 
-**No tool dependency.** Nothing here requires a particular agent runtime or Nix
-distribution. `scripts/compose.sh` is plain bash; `scripts/validate-skills.py`
-is stdlib-only Python. The Nix packaging is a convenience, not a requirement.
+**Short system prompt, deep docs.** Each session of each repo loads
+`SYSTEM.md`, so each rule has a cost in all sessions. `nix flake check`
+limits it to 8 KB. Put longer text in `docs/`. See
+[docs/system-prompt.md](docs/system-prompt.md).
+
+**No tool dependency.** Nothing here needs a specific agent runtime or Nix.
+The scripts use only the Python standard library. The Nix packages are a
+convenience.
 
 See [docs/adoption.md](docs/adoption.md) for setup.
 
@@ -62,6 +65,7 @@ just check-skills     # or: nix build .#checks.<system>.skills
 
 ```bash
 nix develop
-just check            # nix flake check: format, skills, compose round-trip
+just check            # nix flake check: format, skills, instruction files
+just check-instructions
 just fmt
 ```
