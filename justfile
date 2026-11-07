@@ -7,7 +7,7 @@ check-skills:
 
 # Check SYSTEM.md and AGENTS.md against their size budget.
 check-instructions:
-    nix run --inputs-from . workflows#check-instructions -- SYSTEM.md AGENTS.md
+    prek run check-instructions --all-files
 
 # Report what the promotion process would do. CI does the real runs.
 promote *args:

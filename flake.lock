@@ -41,8 +41,7 @@
       "inputs": {
         "blueprint": "blueprint",
         "nixpkgs": "nixpkgs",
-        "treefmt": "treefmt",
-        "workflows": "workflows"
+        "treefmt": "treefmt"
       }
     },
     "systems": {
@@ -77,26 +76,6 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "workflows": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1793969576,
-        "narHash": "sha256-E8+jiYvAQekJFGFG9cGb7EPeXk5bMUVihh2AMzIZlVA=",
-        "owner": "ryanjdillon",
-        "repo": "workflows",
-        "rev": "eb0eae46c65049d246c8c84471206619c38f0115",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ryanjdillon",
-        "repo": "workflows",
         "type": "github"
       }
     }
