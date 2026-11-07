@@ -21,6 +21,10 @@ Use STE for all prose that you write:
 Do not use STE for quoted text, error messages from other tools, or legal
 text. Do not change these texts.
 
+Old text that does not obey STE is rewritten when a PR changes its file, in
+a separate commit. See "Bring old work up to the conventions" in
+`system-prompt.md`.
+
 ## Words
 
 - **Use one word for one meaning.** If you use "remove" for an action, do not

@@ -83,6 +83,26 @@ file.
 - Make sure that two rules do not contradict. If two rules contradict, the agent
   selects one, and you cannot predict which.
 
+## Bring old work up to the conventions
+
+A new convention does not start a sweep of all files. A sweep makes large
+diffs that are hard to review, and they conflict with other work. Instead,
+old work comes up to the conventions when normal work touches it. This is a
+ratchet: the number of files that obey the conventions only increases.
+
+- **Files.** A PR that changes a file also makes the rest of that file obey
+  the conventions, for example STE. The rewrite is a separate commit in the
+  same PR, so that the reviewer can examine the content change and the
+  rewrite one at a time. A rewrite commit does not change a meaning. The PR
+  does not change other files only to rewrite them. If the rewrite spreads to
+  other files, for example a rename in code, it is a separate issue.
+- **Rules.** A rule that a tool can enforce goes into a check (see the table
+  above). When you add, change, or obey such a rule, add the check and remove
+  the rule. A check costs no context, and it does not depend on the agent.
+  Put a check that many repos can use in `ryanjdillon/workflows`, with its
+  adapters. Keep the rule in the repos where the check does not run, because
+  the agent still needs it there.
+
 ## What does not reduce size
 
 An `@import` in a `CLAUDE.md` loads the imported file at the start, in full. It

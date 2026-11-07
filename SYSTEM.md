@@ -123,6 +123,21 @@ See `docs/simplified-technical-english.md`.
 
 See `docs/ci-and-checks.md`.
 
+## Bring old work up to the conventions
+
+Do not change old files or rules only to obey a new convention. Change them
+when other work touches them.
+
+- **Files.** When a PR changes a file that does not obey a rule in this file,
+  make the rest of that file obey it. Do this in a separate commit in the same
+  PR, with no change to the meaning. If the change spreads to other files, for
+  example a rename, file an issue instead.
+- **Rules.** When you add, change, or obey a rule that a tool can enforce, add
+  a check and remove the rule. Put a check that many repos can use in
+  `ryanjdillon/workflows`. Keep the rule where the check does not run.
+
+See `docs/system-prompt.md`.
+
 ## Commits
 
 - Logical, atomic, rebase-able, and succinct. One concern per commit.
