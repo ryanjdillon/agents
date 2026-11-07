@@ -119,8 +119,10 @@ each run. The language setup actions cache with no configuration.
 
 ## Shared checks
 
-A check that many repos use lives in `ryanjdillon/workflows`. It has one
-script, and an adapter for each environment:
+A check that many repos use lives in `ryanjdillon/workflows`. When a rule in
+`SYSTEM.md` or an `AGENTS.md` can be checked by a tool, replace the rule with
+a check (see `system-prompt.md`). A shared check has one script, and an
+adapter for each environment:
 
 | Environment | Adapter |
 | --- | --- |
