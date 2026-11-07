@@ -56,8 +56,8 @@ rely on hooks, because each contributor configures a machine differently.
 - Run `prek install` one time in each clone to install the git hooks.
 - Write the hooks as local hooks that call the `just` recipes. Do not use a
   third-party remote hook repository. It is an additional supply chain. The
-  shared checks in `ryanjdillon/workflows` are the exception: pin them by
-  commit SHA.
+  shared checks in `ryanjdillon/workflows` are the exception: pin a release
+  by its commit SHA, with `# frozen: vX.Y.Z` after the `rev:`.
 - Run only the fast checks (format and lint) in a pre-commit hook. Run the
   tests in CI, or in a pre-push hook.
 ```yaml
@@ -109,6 +109,10 @@ each run. The language setup actions cache with no configuration.
 - **Wait before you take a new release.** Set Renovate `minimumReleaseAge`, or
   uv `exclude-newer`. Most malicious releases are found and removed in a few
   days. A delay keeps them out of the lockfile.
+- **Let Renovate keep the pins current.** Extend the shared preset in
+  `renovate.json`: `github>ryanjdillon/workflows//renovate/default#v1`. It
+  waits 7 days for a release, pins actions by digest, and updates the prek
+  `rev:` pins and the lockfiles. See the README of `ryanjdillon/workflows`.
 - **Audit known vulnerabilities** with `pip-audit`, `cargo deny`, or
   `osv-scanner`.
 - **Audit the workflows** with `zizmor`.
@@ -120,13 +124,15 @@ script, and an adapter for each environment:
 
 | Environment | Adapter |
 | --- | --- |
-| GitHub Actions | A composite action: `uses: ryanjdillon/workflows/<check>@<sha>` |
-| prek (or pre-commit) | `.pre-commit-hooks.yaml`, with `rev:` pinned to a commit SHA |
+| GitHub Actions | A composite action: `uses: ryanjdillon/workflows/<check>@<sha> # vX.Y.Z` |
+| prek (or pre-commit) | `.pre-commit-hooks.yaml`, with `rev: <sha> # frozen: vX.Y.Z` |
 | Nix | The flake: a package, and a `lib` function for flake `checks` |
 
 Each adapter runs the same script. Thus a local run and CI give the same
-result. Use the same commit of `ryanjdillon/workflows` in CI and in the local
-pin (`flake.lock` or `rev:`).
+result. Pin the same release of `ryanjdillon/workflows` in CI and in the
+prek `rev:`. The shared Renovate preset moves all these pins in one PR.
+Renovate updates a `flake.lock` input from its branch, not from a release.
+Thus use the Nix adapter only if the repo does not also pin a release.
 
 `check-instructions` checks `SYSTEM.md` and a repo `AGENTS.md` against the
 budget in `system-prompt.md`. It also makes sure that `AGENTS.md` ends with the
