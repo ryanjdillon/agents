@@ -50,16 +50,16 @@ in the source repo. Then, for each rule:
 The summary of each run lists the repos that it scanned, and the repos that
 have a section. If a repo is not in the list, the App is not installed on it.
 
-A promotion PR adds the rules at the end of `SYSTEM.md`. A hidden marker in the PR body records the source repo, the
-commit, and the hash of each rule.
+A promotion PR adds the rules at the end of `SYSTEM.md`. A hidden marker in
+the PR body records the source repo, the commit, and the hash of each rule.
 
 ## Review a promotion PR
 
 The promotion PR is the review step. Edit, shorten, or move a rule in the PR
-before it applies to all repos. A rule that only interactive coding sessions
-need, for example a rule about Linear or sub-agents, goes to `WORKFLOW.md`:
-move it there in the PR. The process matches rules by their text in the
-source repo, so an edit in the PR does not stop the cleanup.
+before it applies to all repos. A rule that an unattended agent cannot obey
+goes to `WORKFLOW.md`, for example a rule about Linear, sub-agents, hand-off,
+or memory. Move it there in the PR. The process matches rules by their text
+in the source repo, so an edit in the PR does not stop the cleanup.
 
 To reject a rule, close the PR without a merge. The process then reports the
 rule as rejected in each run. Remove it from the source repo by hand.

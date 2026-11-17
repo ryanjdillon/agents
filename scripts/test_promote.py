@@ -49,10 +49,6 @@ SYSTEM = """# Agent conventions
 ## Commits
 
 - Atomic.
-
-## Promote rules to SYSTEM.md
-
-See `docs/promotion.md`.
 """
 
 RULE_ONE = "## Rule one\n\nText one."
@@ -91,14 +87,9 @@ class EditTest(unittest.TestCase):
         result = remove_rules(AGENTS, {rule_hash(RULE_ONE), rule_hash(RULE_TWO)})
         self.assertTrue(result.endswith(f"# SYSTEM.md\n\n{COMMENT}\n"))
 
-    def test_insert_above_promotion_section(self):
-        result = insert_rules(SYSTEM, [RULE_ONE])
-        self.assertLess(result.index("## Rule one"), result.index("## Promote rules"))
-        self.assertGreater(result.index("## Rule one"), result.index("- Atomic."))
-
-    def test_insert_at_end_without_anchor(self):
-        result = insert_rules("# Agent conventions\n", [RULE_ONE])
-        self.assertTrue(result.endswith("Text one.\n"))
+    def test_insert_appends_at_end(self):
+        result = insert_rules(SYSTEM, [RULE_ONE, RULE_TWO])
+        self.assertEqual(result, f"{SYSTEM}\n{RULE_ONE}\n\n{RULE_TWO}\n")
 
 
 def pull(number, ref, body, state="closed", merged=False):
