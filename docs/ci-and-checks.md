@@ -139,7 +139,7 @@ prek `rev:`. The shared Renovate preset moves all these pins in one PR.
 Renovate updates a `flake.lock` input from its branch, not from a release.
 Thus use the Nix adapter only if the repo does not also pin a release.
 
-`check-instructions` checks `SYSTEM.md` and a repo `AGENTS.md` against the
-budget in `system-prompt.md`. It also makes sure that `AGENTS.md` ends with the
-`# SYSTEM.md` section. See the README of `ryanjdillon/workflows` for the
-configuration of each adapter.
+`check-instructions` checks `SYSTEM.md`, `WORKFLOW.md`, and a repo
+`AGENTS.md` against the budget in `system-prompt.md`. It also makes sure
+that `AGENTS.md` ends with the `# SYSTEM.md` section. See the README of
+`ryanjdillon/workflows` for the configuration of each adapter.

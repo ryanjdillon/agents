@@ -1,7 +1,7 @@
 # Agent convention docs
 
-Read these on demand. `SYSTEM.md` and `WORKFLOW.md` have the rules, and these docs give the
-reasons and the edge cases.
+Read these on demand. `SYSTEM.md` and `WORKFLOW.md` have the rules, and these
+docs give the reasons and the edge cases.
 
 - [Planning on Linear](planning-on-linear.md) — issue lifecycle, tiers, drift detection
 - [Planning strategically](planning-strategically.md) — initiative → project → critical path

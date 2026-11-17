@@ -19,6 +19,19 @@ paid every session, by everyone.
 Write back facts, not narrative. "Peer auth means this must run as the service
 user" is a fact. "I tried X and it failed" is narrative.
 
+## Facts need a source
+
+Do not write a part number, a rating, a price, or another fact from memory.
+This applies to code, docs, and commit messages. A fact from memory can be
+wrong, and the reader cannot see that it is not verified.
+
+- Read the fact from a source in the current task: a datasheet, a standard,
+  the manufacturer, or the code.
+- Name the source next to the fact, for example with a URL.
+- If you cannot read a source, leave the field blank and write "to verify".
+
+The `web-research` skill tells how to fetch and label a source.
+
 ## Structure
 
 - Every `docs/` tree has an `index.md` listing its contents with one-line hooks.

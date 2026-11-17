@@ -1,8 +1,8 @@
 # Agent workflow
 
-These rules add to `SYSTEM.md` for interactive coding sessions that have
-Linear and sub-agents. The reasons for each rule are in the `docs/` directory
-of <https://github.com/ryanjdillon/agents>.
+These rules add to `SYSTEM.md` for an interactive coding session: Linear,
+sub-agents, hand-off, memory, and promotion. The reasons for each rule are in
+the `docs/` directory of <https://github.com/ryanjdillon/agents>.
 
 ## Plan on Linear
 
@@ -18,7 +18,6 @@ the code works; Linear records why work is happening and what is left.
 - **Close on ship, in the same turn.** An issue left open after its change ships
   makes the whole board untrustworthy. The exception is an explicit "leave it,
   I want to look first".
-- **Reference the issue in the commit message** so history and Linear stay linked.
 - **Do not invent issues** to look busy, and do not silently work off-issue.
 
 See `docs/planning-on-linear.md`.
@@ -78,7 +77,8 @@ See `docs/session-handoff.md`.
 
 Record what is durable and not derivable from the repo: user preferences,
 guidance you were given and why, project constraints, external references.
-Do not record what the code, git history, or this file already says.
+Do not record what the code, the git history, `SYSTEM.md`, or this file
+already says.
 
 See `docs/memory.md`.
 

@@ -2,17 +2,17 @@
 
 `SYSTEM.md` is one set of rules for how AI agents work in all my repos: write
 in Simplified Technical English, keep docs correct, keep modules deep, and
-make clean commits. `WORKFLOW.md` adds the rules for interactive coding
-sessions: plan on Linear, stay on the critical path, and keep context small
-with sub-agents. Agent tools load them as the system prompt. Each repo adds
-its own rules in its `AGENTS.md`.
+make clean commits. `WORKFLOW.md` adds the rules for an interactive coding
+session: Linear, sub-agents, hand-off, memory, and promotion. Agent tools
+load them as the system prompt. Each repo adds its own rules in its
+`AGENTS.md`.
 
 ## What is in here
 
 | Path | Purpose |
 | --- | --- |
 | `SYSTEM.md` | The rules for all repos and all agents. Short by design: rules only. |
-| `WORKFLOW.md` | The rules for interactive coding sessions, which have Linear and sub-agents. |
+| `WORKFLOW.md` | The rules for an interactive coding session: Linear, sub-agents, hand-off, memory, and promotion. |
 | `AGENTS.md` | The rules for this repo. |
 | `docs/` | The reasons and edge cases for each rule. Agents read them on demand. |
 | `templates/` | Starters for a repo `AGENTS.md` and `docs/index.md`. |
