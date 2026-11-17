@@ -30,7 +30,6 @@ import sys
 from dataclasses import dataclass, field
 
 SECTION_HEADING = "# SYSTEM.md"
-PROMOTE_ANCHOR = "## Promote rules to SYSTEM.md"
 PROMOTE_PREFIX = "promote/"
 CLEANUP_PREFIX = "promote/cleanup-"
 MARKER_RE = re.compile(
@@ -138,14 +137,12 @@ def remove_rules(text: str, hashes: set[str]) -> str:
 
 
 def insert_rules(system_text: str, rules: list[str]) -> str:
-    """Insert the rules above the promotion section of SYSTEM.md, or at the end."""
+    """Append the rules at the end of SYSTEM.md.
+
+    A reviewer moves a rule that only interactive sessions need to WORKFLOW.md
+    in the promotion PR.
+    """
     block = "\n\n".join(rules)
-    lines = system_text.splitlines()
-    for i, line in enumerate(lines):
-        if line.rstrip() == PROMOTE_ANCHOR:
-            head = "\n".join(lines[:i]).rstrip("\n")
-            tail = "\n".join(lines[i:])
-            return f"{head}\n\n{block}\n\n{tail}\n"
     return f"{system_text.rstrip()}\n\n{block}\n"
 
 
