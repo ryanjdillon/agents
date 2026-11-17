@@ -50,9 +50,10 @@ solution. Do not rewrite the work unless the author asks you to.
    - No `sys.path` edits. Import the code as a package.
    - No unused imports.
    - No part number or rating without a source.
-   - Code, comments and commits describe the design, not the review. They
-     contain no issue ids and no words such as "blocker", "finding N",
-     "re-review" or "hand-back".
+   - Code, comments and commit messages describe the design, not the
+     review. They contain no review item numbers and no review words such
+     as "blocker", "should-fix", "finding N", "re-review" or "hand-back".
+   - A commit message refers to its issue. This is correct and expected.
 8. **Scope.** Mark changes that are not related to the requirement, and
    features that nobody asked for.
 

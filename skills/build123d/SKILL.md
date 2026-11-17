@@ -51,10 +51,14 @@ assert len(part.solids()) == 1 and part.is_valid
 
 ## Measure
 
-There is no `Shape.section()` in 0.11.1. Measure the solid as follows.
+There is no `Shape.section()` method in 0.11.1. To get a cross-section, use
+the algebra-mode operation `section()`. It returns a `Sketch`.
 
 ```python
-from build123d import Box, GeomType, Pos
+from build123d import Box, GeomType, Plane, Pos, section
+
+cut = section(part, Plane.XY, height=0)        # the Sketch at z = 0
+print(cut.area)
 
 bb = part.bounding_box(); print(bb.min, bb.max, bb.size)
 print(part.volume)
@@ -92,13 +96,14 @@ print(overlap_volume(part, Pos(x, y, z) * Box(1, 1, 1)))
 ```python
 from build123d import export_step, export_stl
 
-if not export_step(part, "build/part.step"):
-    raise RuntimeError("STEP export failed")
+export_step(part, "build/part.step")   # raises RuntimeError on failure
 if not export_stl(part, "build/part.stl"):
     raise RuntimeError("STL export failed")
 ```
 
-- Both functions return `False` when they fail. Check the result.
+- `export_step` raises `RuntimeError` when the write fails. Do not catch
+  it to continue.
+- `export_stl` returns `False` when it fails. Check the result.
 - Remove old files before you export, so that a failed export does not
   leave a stale file.
 - After the export, make sure that each file exists and is not empty.

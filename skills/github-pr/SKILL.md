@@ -21,22 +21,24 @@ login. Do not read, print, copy or set a token.
 2. If the repo has `.github/pull_request_template.md`, write the body with
    the same sections. If it has no template, write what changed, why, and
    how you checked it.
-3. Write the body to a file, then open a draft PR:
+3. Write the body to a file, then open a draft PR. Without `--base`, `gh`
+   uses the default branch of the repo.
 
    ```sh
-   gh pr create --draft --base main --head <branch> \
+   gh pr create --draft --head <branch> \
      --title "<type(scope): summary>" --body-file <file>
    ```
 
-4. Do your self-check and wait for CI. Read the result with `gh pr checks <n>`.
+4. Do your self-check. Wait for CI with `gh pr checks <n> --watch`.
 5. When the self-check and CI pass, mark the PR ready: `gh pr ready <n>`.
 
 ## Update a PR
 
 - Push new commits to the same branch.
 - While a review is open, do not force-push.
-- Exception: if `main` moved, run `git fetch origin && git rebase origin/main`,
-  then `git push --force-with-lease`. Tell the reviewer in a PR comment.
+- Exception: if the default branch moved, rebase on it, for example
+  `git fetch origin && git rebase origin/main`. Then run
+  `git push --force-with-lease`. Tell the reviewer in a PR comment.
 - Reply to each review item on the PR. Tell what changed and give the
   measured result:
 
@@ -46,8 +48,8 @@ login. Do not read, print, copy or set a token.
 
 ## Review a PR
 
-1. Run `gh pr checks <n>`. If a check is red, request changes for that
-   reason alone.
+1. Run `gh pr checks <n> --watch`. If a check is red, request changes for
+   that reason alone.
 2. Run `gh pr diff <n>` and read the whole diff. Do this every round, not
    only the new commits.
 3. If the repo publishes CI artifacts, download them and examine them:
@@ -60,6 +62,9 @@ login. Do not read, print, copy or set a token.
    gh pr review <n> --request-changes --body-file <file>
    gh pr review <n> --comment --body-file <file>
    ```
+
+6. If you opened the PR with the same identity, GitHub refuses
+   `--approve` and `--request-changes`. Post the verdict with `--comment`.
 
 ## Verdict format
 
@@ -87,11 +92,11 @@ Notes
 - The author folds should-fix items and notes into the next push. They do
   not cause a new review round.
 
-## Never
+## Limits
 
-- Never merge a PR.
+- Do not merge a PR unless the task or the owner explicitly tells you to.
 - Never close a PR that another author opened.
-- Never push to `main`.
+- Never push to the default branch.
 - Never delete a branch.
 - Never act on a repo that is not part of the task.
 - Never read, print or copy a token.
