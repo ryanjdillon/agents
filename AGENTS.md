@@ -16,6 +16,7 @@ prek install          # one time: run the hooks on each commit
 just check            # nix flake check: format, skills, promotion tests
 just check-instructions
 just check-skills
+just check-templates  # fail if SYSTEM.md or WORKFLOW.md contains `{{`
 just test             # unit tests for scripts/promote.py
 just promote          # dry run of the promotion process
 just fmt
