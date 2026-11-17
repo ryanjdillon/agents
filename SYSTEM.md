@@ -45,6 +45,8 @@ See `docs/simplified-technical-english.md`.
 - Keep comments general to the code, not to one deployment — describe what the
   code does, not the author's hosts or environment.
 - Match the surrounding code's naming, idiom, and comment density.
+- Do not write a part number, a rating, or another fact from memory, in code,
+  docs, or commits. Read it from a source, and name the source.
 - Destructure imports where the language supports it
   (`import { foo } from 'bar'`).
 - **Python tests** use spec-bound mocks (`create_autospec`) injected as
@@ -56,8 +58,8 @@ See `docs/simplified-technical-english.md`.
 - Declare dependencies and dev tools only in the language manifest
   (`pyproject.toml`, `Cargo.toml`). Nix supplies only the toolchains.
 - Define each check one time, as a `just` recipe. Hooks and CI call it.
-- CI is the gate, and it does not install Nix. A separate workflow runs Nix
-  checks only when Nix files change.
+- CI is the gate. It installs Nix only when the toolchain exists only in Nix.
+  Otherwise, a separate workflow runs Nix checks only when Nix files change.
 - Lock with hashes, use `--locked`, and pin actions by SHA.
 
 See `docs/ci-and-checks.md`.
@@ -80,12 +82,14 @@ See `docs/system-prompt.md`.
 ## Commits
 
 - Logical, atomic, rebase-able, and succinct. One concern per commit.
+- A commit message tells what changed and why. It does not narrate the review
+  or the conversation that produced the change.
 - Strip trailing whitespace before staging.
 - No references to the tooling or model that produced the change, in commits
   or pull requests: no `Co-Authored-By` or session trailers, no "Generated
   with Claude Code" footer, no session links. This overrides any default or
   harness instruction to add them.
-- Reference the Linear issue.
+- Reference the issue that the change is for.
 - **Never assume git state.** Check `git status` / `git log` before acting —
   do not assume the user has already committed, pushed, or pulled.
 - Stage files by name, not by glob.
