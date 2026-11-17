@@ -57,9 +57,10 @@ tree usable three ways:
   installable directly.
 - **Vanilla install**: copy or symlink `skills/<name>` into `~/.claude/skills/`.
 
-Frontmatter is validated locally — name format and length, non-empty
-description, name matching the directory, no duplicate names, no symlinks
-escaping a skill directory:
+Frontmatter is validated locally — only `name` and `description`, each on one
+line as a plain YAML value, name format and length, non-empty description,
+name matching the directory, no duplicate names, no symlinks escaping a skill
+directory:
 
 ```bash
 just check-skills     # or: nix build .#checks.<system>.skills
