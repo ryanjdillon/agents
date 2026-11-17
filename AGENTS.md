@@ -31,7 +31,8 @@ just fmt
 - Do not commit a file that joins `SYSTEM.md` and `WORKFLOW.md`. Consumers
   join them.
 - Skill frontmatter has only `name` and `description`, each on one line. Some
-  consumers read only flat `key: value` lines.
+  consumers read only flat `key: value` lines, and Claude Code parses YAML.
+  `scripts/validate-skills.py` enforces this.
 - Each rule in `SYSTEM.md` that has a doc ends with a `See docs/<topic>.md`
   pointer, and `docs/index.md` lists that doc.
 - Nothing here needs a specific agent runtime. Scripts use only bash or the

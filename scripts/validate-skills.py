@@ -15,6 +15,9 @@ from pathlib import Path
 NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MAX_NAME = 64
 MAX_DESCRIPTION = 1024
+ALLOWED_KEYS = ("name", "description")
+# A plain YAML scalar must not start with one of these characters.
+YAML_SPECIAL_START = "[]{}&*!|>'\"%@`#,?:-"
 
 
 class SkillError(Exception):
@@ -24,8 +27,10 @@ class SkillError(Exception):
 def parse_frontmatter(skill_file: Path) -> dict[str, str]:
     """Read the leading --- delimited block as flat `key: value` pairs.
 
-    Deliberately not a full YAML parser: skill frontmatter is a flat mapping of
-    scalars, and hand-rolling it keeps this script dependency-free.
+    This is not a full YAML parser, so the script has no dependencies. Thus it
+    accepts only a subset that is also valid YAML: the keys `name` and
+    `description`, each on one line, with a plain scalar value. Some consumers
+    read only flat `key: value` lines, and Claude Code parses YAML.
     """
     try:
         lines = skill_file.read_text(encoding="utf-8").splitlines()
@@ -43,24 +48,40 @@ def parse_frontmatter(skill_file: Path) -> dict[str, str]:
         raise SkillError(f"{skill_file}: frontmatter is not closed") from None
 
     fields: dict[str, str] = {}
-    key: str | None = None
     for lineno, line in enumerate(lines[1:closing], 2):
         if not line.strip():
             continue
         if line[0].isspace():
-            if key is None:
-                raise SkillError(f"{skill_file}:{lineno}: continuation before any key")
-            fields[key] = f"{fields[key]} {line.strip()}".strip()
-            continue
-        if ":" not in line:
+            raise SkillError(
+                f"{skill_file}:{lineno}: continuation line; put each value on one line"
+            )
+        if ": " not in line:
             raise SkillError(f"{skill_file}:{lineno}: expected 'key: value'")
-        key, _, value = line.partition(":")
-        key = key.strip()
+        key, _, value = line.partition(": ")
+        if key not in ALLOWED_KEYS:
+            raise SkillError(
+                f"{skill_file}:{lineno}: key {key!r} is not allowed;"
+                f" use only {', '.join(ALLOWED_KEYS)}"
+            )
         if key in fields:
             raise SkillError(f"{skill_file}:{lineno}: duplicate key {key!r}")
-        fields[key] = value.strip().strip("\"'")
+        fields[key] = check_plain_scalar(skill_file, lineno, key, value.strip())
 
     return fields
+
+
+def check_plain_scalar(skill_file: Path, lineno: int, key: str, value: str) -> str:
+    """Refuse a value that YAML does not read as one plain string."""
+    where = f"{skill_file}:{lineno}: {key!r}"
+    if not value:
+        raise SkillError(f"{where} has no value on its line")
+    if value[0] in YAML_SPECIAL_START:
+        raise SkillError(f"{where} starts with the YAML character {value[0]!r}")
+    if ": " in value or value.endswith(":"):
+        raise SkillError(f"{where} contains ': ', which is not valid YAML here")
+    if " #" in value:
+        raise SkillError(f"{where} contains ' #', which YAML reads as a comment")
+    return value
 
 
 def validate_symlinks(skill_dir: Path) -> None:
