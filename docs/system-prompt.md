@@ -1,8 +1,8 @@
 # Writing SYSTEM.md, WORKFLOW.md, and AGENTS.md
 
-`SYSTEM.md`, `WORKFLOW.md`, and each repo `AGENTS.md` are instruction files. The agent loads
-them at the start of each session, before it reads the task. This doc tells
-how to keep these files small and effective.
+`SYSTEM.md`, `WORKFLOW.md`, and each repo `AGENTS.md` are instruction
+files. The agent loads them at the start of each session, before it reads
+the task. This doc tells how to keep these files small and effective.
 
 ## Why size is a risk
 
@@ -32,8 +32,9 @@ the line count, but it does not change the cost.
 A rule is a list item or a numbered step. The limits are judgement, not
 results from a study. The `check-instructions` check in
 `ryanjdillon/workflows` enforces them, and its script is the only definition
-of the numbers. If you change a limit, change this table too. Vendor limits are higher: Claude Code advises fewer than
-200 lines, and Codex stops reading at 32 KiB.
+of the numbers. If you change a limit, change this table too. Vendor limits
+are higher: Claude Code advises fewer than 200 lines, and Codex stops
+reading at 32 KiB.
 
 If a file is near its limit, first move rules out of it. Increase the limit
 only when each rule in the file passes the admission test.
@@ -41,10 +42,10 @@ only when each rule in the file passes the admission test.
 ## Two files for all repos
 
 `SYSTEM.md` has the rules for each agent in each repo. `WORKFLOW.md` has the
-rules for an interactive coding session: planning on Linear, sub-agents,
-hand-off, memory, and promotion. Some agents do not have Linear or
-sub-agents, for example agents in an agent platform. They load only
-`SYSTEM.md`, so a rule that needs these tools goes in `WORKFLOW.md`.
+rules for an interactive coding session: Linear, sub-agents, hand-off,
+memory, and promotion. Some agents run unattended in an agent platform, and
+do not have Linear, sub-agents, or memory. They load only `SYSTEM.md`. Thus
+a rule goes in `SYSTEM.md` only if such an agent can obey it.
 
 The repo does not contain a file that joins the two. Each tool config joins
 the files that it needs, so a joined copy cannot drift from its sources.
@@ -60,10 +61,13 @@ A rule goes into `SYSTEM.md` only if all of these conditions are true:
 2. No tool can enforce it.
 3. The agent does not already do it without the rule.
 4. It does not contradict a different rule.
+5. Each agent can obey it, also an agent that runs unattended without
+   Linear, sub-agents, or memory.
 
-If condition 1 is false, the rule goes into `WORKFLOW.md`, a repo `AGENTS.md`,
-a nested `AGENTS.md`, or a skill. If condition 2 is false, the rule goes into a check.
-If condition 3 is false, remove the rule.
+If condition 1 is false, the rule goes into a repo `AGENTS.md`, a nested
+`AGENTS.md`, or a skill. If only condition 5 is false, the rule goes into
+`WORKFLOW.md`. If condition 2 is false, the rule goes into a check. If
+condition 3 is false, remove the rule.
 
 A repo `AGENTS.md` uses the same test, for the tasks in that repo.
 
@@ -72,7 +76,7 @@ A repo `AGENTS.md` uses the same test, for the tasks in that repo.
 | The rule is | Put it in |
 | --- | --- |
 | Necessary for each task in each repo, for each agent | `SYSTEM.md` |
-| Necessary only in an interactive coding session, for example a rule about Linear or sub-agents | `WORKFLOW.md` |
+| Necessary for each task in each repo, but only an interactive coding session can obey it: Linear, sub-agents, hand-off, memory, or promotion | `WORKFLOW.md` |
 | Necessary for each task in one repo | The repo `AGENTS.md` |
 | Necessary for one directory of a repo | An `AGENTS.md` in that directory |
 | A procedure that the agent does sometimes | A skill (`SKILL.md`) |

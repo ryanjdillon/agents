@@ -2,7 +2,8 @@
 
 This repo holds `SYSTEM.md`, the rules for agents in all my repos,
 `WORKFLOW.md`, the rules for interactive coding sessions, and the docs and
-skills that go with them. Agent tools load them as the system prompt. This file has the rules for work in this repo only.
+skills that go with them. Agent tools load them as the system prompt. This
+file has the rules for work in this repo only.
 
 ## Linear
 
@@ -27,15 +28,16 @@ just fmt
 - `SYSTEM.md` and `WORKFLOW.md` are each 8 KB or smaller.
   `check-instructions` in `ryanjdillon/workflows` enforces this.
   Move detail into `docs/` and leave a pointer. Do not increase the limit.
-- `SYSTEM.md` is for all repos and all agents. A rule that needs Linear or
-  sub-agents goes in `WORKFLOW.md`. Do not put rules for this repo in either.
+- `SYSTEM.md` is for all repos and all agents. `WORKFLOW.md` has the rules
+  for an interactive coding session: Linear, sub-agents, hand-off, memory,
+  and promotion. Do not put rules for this repo in either.
 - Do not commit a file that joins `SYSTEM.md` and `WORKFLOW.md`. Consumers
   join them.
 - Skill frontmatter has only `name` and `description`, each on one line. Some
   consumers read only flat `key: value` lines, and Claude Code parses YAML.
   `scripts/validate-skills.py` enforces this.
-- Each rule in `SYSTEM.md` that has a doc ends with a `See docs/<topic>.md`
-  pointer, and `docs/index.md` lists that doc.
+- Each rule in `SYSTEM.md` or `WORKFLOW.md` that has a doc ends with a
+  `See docs/<topic>.md` pointer, and `docs/index.md` lists that doc.
 - Nothing here needs a specific agent runtime. Scripts use only bash or the
   Python standard library.
 - CI does not install Nix. `nix.yml` runs `nix flake check` only when Nix

@@ -9,8 +9,8 @@ Three files give an agent its rules:
   from the `base` package of this flake.
 - `WORKFLOW.md` in this repo has the rules for interactive coding sessions:
   Linear, sub-agents, hand-off, memory, and promotion. Load it after
-  `SYSTEM.md` in tools that have Linear and sub-agents. Do not load it in an
-  agent that has neither.
+  `SYSTEM.md` in interactive coding tools. Do not load it in an agent that
+  runs unattended in a platform, or that does not have these tools.
 - `AGENTS.md` in each repo has the rules for that repo. The repo commits it,
   and you edit it by hand.
 
@@ -34,7 +34,7 @@ Join `SYSTEM.md` and, where it applies, `WORKFLOW.md` into one file in your
 tool config, for example with `pkgs.concatText` in Nix. Then point each tool
 at that file when it starts, or in its user-level config:
 
-| Tool | How to load SYSTEM.md |
+| Tool | How to load the joined file |
 | --- | --- |
 | Claude Code | Start `claude` with `--append-system-prompt-file /path/to/the/joined/file`, for example in a wrapper script. The flag takes one file. |
 | pi | `$PI_CODING_AGENT_DIR/APPEND_SYSTEM.md` (by default `~/.pi/agent/APPEND_SYSTEM.md`), or `--append-system-prompt`. Do not name it `SYSTEM.md` there: pi then replaces its own system prompt with the file. |
@@ -42,7 +42,7 @@ at that file when it starts, or in its user-level config:
 | opencode | `~/.config/opencode/AGENTS.md`, or a path in `instructions` in `~/.config/opencode/opencode.json`. |
 
 opencode does not read `@` imports, and the Codex docs do not describe them.
-For these tools, link or copy `SYSTEM.md` to the path.
+For these tools, link or copy the joined file to the path.
 
 Do not import `SYSTEM.md` with `@` in `~/.claude/CLAUDE.md` if you use more
 than one Claude Code profile. Each profile that uses the same config directory
@@ -51,7 +51,8 @@ wrapper of each profile applies the rules only to that profile.
 
 The `base` package of this flake contains `SYSTEM.md`, `WORKFLOW.md`, and
 `docs/`. A Nix system config can join the files from it, give the store path
-of the result to the flag, or link it to the paths above. Then the flake lock of the system config is the pin.
+of the result to the flag, or link it to the paths above. Then the flake
+lock of the system config is the pin.
 
 Claude Code reads skills only from `.claude/skills` directories, not from
 `.agents/skills`.

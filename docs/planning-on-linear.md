@@ -58,6 +58,10 @@ issue's named files and symbols, then close it.
 
 ## Commit messages
 
+A commit message tells what changed and why. It does not tell the history of
+the review or the conversation, because that history is not useful in
+`git log`. Put review responses in the PR.
+
 For a commit that resolves an issue, put the identifier in the subject
 (`(ABC-123)` or `Closes ABC-123`) so the link is visible in `git log`. The
 status transition still happens through the Linear MCP tools — the commit
