@@ -2,11 +2,15 @@
 
 ## How it works
 
-Two files give an agent its rules:
+Three files give an agent its rules:
 
-- `SYSTEM.md` in this repo has the rules for all repos. Your agent tools load
-  it as the system prompt, from a checkout of this repo or from the `base`
-  package of this flake.
+- `SYSTEM.md` in this repo has the rules for all repos and all agents. Your
+  agent tools load it as the system prompt, from a checkout of this repo or
+  from the `base` package of this flake.
+- `WORKFLOW.md` in this repo has the rules for interactive coding sessions:
+  Linear, sub-agents, hand-off, memory, and promotion. Load it after
+  `SYSTEM.md` in tools that have Linear and sub-agents. Do not load it in an
+  agent that has neither.
 - `AGENTS.md` in each repo has the rules for that repo. The repo commits it,
   and you edit it by hand.
 
@@ -24,13 +28,16 @@ flake, for each user. Only your tool config needs `SYSTEM.md`.
 Claude Code, Codex, and opencode read `AGENTS.md` directly. Do not add a
 `CLAUDE.md`.
 
-## Load SYSTEM.md in your tools
+## Load the rules in your tools
 
-Point each tool at `SYSTEM.md` when it starts, or in its user-level config:
+Join `SYSTEM.md` and, where it applies, `WORKFLOW.md` into one file in your
+tool config, for example with `pkgs.concatText` in Nix. Then point each tool
+at that file when it starts, or in its user-level config:
 
 | Tool | How to load SYSTEM.md |
 | --- | --- |
-| Claude Code | Start `claude` with `--append-system-prompt-file /path/to/SYSTEM.md`, for example in a wrapper script. |
+| Claude Code | Start `claude` with `--append-system-prompt-file /path/to/the/joined/file`, for example in a wrapper script. The flag takes one file. |
+| pi | `$PI_CODING_AGENT_DIR/APPEND_SYSTEM.md` (by default `~/.pi/agent/APPEND_SYSTEM.md`), or `--append-system-prompt`. Do not name it `SYSTEM.md` there: pi then replaces its own system prompt with the file. |
 | Codex | `~/.codex/AGENTS.md` (or `$CODEX_HOME/AGENTS.md`). Codex reads only the first file that is not empty, and `AGENTS.override.md` comes before `AGENTS.md`. |
 | opencode | `~/.config/opencode/AGENTS.md`, or a path in `instructions` in `~/.config/opencode/opencode.json`. |
 
@@ -42,14 +49,15 @@ than one Claude Code profile. Each profile that uses the same config directory
 reads that file, so a work profile also gets these rules. A flag in the
 wrapper of each profile applies the rules only to that profile.
 
-The `base` package of this flake contains `SYSTEM.md` and `docs/`. A Nix
-system config can give the store path of `SYSTEM.md` to the flag, or link it to
-the paths above. Then the flake lock of the system config is the pin.
+The `base` package of this flake contains `SYSTEM.md`, `WORKFLOW.md`, and
+`docs/`. A Nix system config can join the files from it, give the store path
+of the result to the flag, or link it to the paths above. Then the flake lock of the system config is the pin.
 
 Claude Code reads skills only from `.claude/skills` directories, not from
 `.agents/skills`.
 
 Sources: <https://code.claude.com/docs/en/memory>,
+the pi README (Context Files, System Prompt),
 <https://code.claude.com/docs/en/skills>,
 <https://learn.chatgpt.com/docs/agent-configuration/agents-md>,
 <https://opencode.ai/docs/rules/>.

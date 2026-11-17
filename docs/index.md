@@ -1,6 +1,6 @@
 # Agent convention docs
 
-Read these on demand. `SYSTEM.md` has the rules, and these docs give the
+Read these on demand. `SYSTEM.md` and `WORKFLOW.md` have the rules, and these docs give the
 reasons and the edge cases.
 
 - [Planning on Linear](planning-on-linear.md) — issue lifecycle, tiers, drift detection
@@ -15,4 +15,4 @@ reasons and the edge cases.
 - [Simplified Technical English](simplified-technical-english.md) — STE rules for prose and names in code
 - [System prompt](system-prompt.md) — size, the admission test, where a rule goes, the ratchet
 - [Promotion](promotion.md) — move a repo rule into SYSTEM.md
-- [Adoption](adoption.md) — load SYSTEM.md and set up a repo AGENTS.md
+- [Adoption](adoption.md) — load SYSTEM.md and WORKFLOW.md, and set up a repo AGENTS.md

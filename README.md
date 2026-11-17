@@ -1,16 +1,18 @@
 # agents
 
-`SYSTEM.md` is one set of rules for how AI coding agents work in all my
-repos: plan on Linear, stay on the critical path, keep context small with
-sub-agents, write in Simplified Technical English, and keep docs correct.
-Agent tools load it as the system prompt. Each repo adds its own rules in its
-`AGENTS.md`.
+`SYSTEM.md` is one set of rules for how AI agents work in all my repos: write
+in Simplified Technical English, keep docs correct, keep modules deep, and
+make clean commits. `WORKFLOW.md` adds the rules for interactive coding
+sessions: plan on Linear, stay on the critical path, and keep context small
+with sub-agents. Agent tools load them as the system prompt. Each repo adds
+its own rules in its `AGENTS.md`.
 
 ## What is in here
 
 | Path | Purpose |
 | --- | --- |
-| `SYSTEM.md` | The rules for all repos. Short by design: rules only. |
+| `SYSTEM.md` | The rules for all repos and all agents. Short by design: rules only. |
+| `WORKFLOW.md` | The rules for interactive coding sessions, which have Linear and sub-agents. |
 | `AGENTS.md` | The rules for this repo. |
 | `docs/` | The reasons and edge cases for each rule. Agents read them on demand. |
 | `templates/` | Starters for a repo `AGENTS.md` and `docs/index.md`. |
@@ -19,7 +21,9 @@ Agent tools load it as the system prompt. Each repo adds its own rules in its
 
 ## Design
 
-**System prompt, not a copy.** Agent tools load `SYSTEM.md` from this repo.
+**System prompt, not a copy.** Agent tools load `SYSTEM.md`, and where it
+applies `WORKFLOW.md`, from this repo. Each tool config joins the files that
+it needs; this repo has no joined copy.
 A consuming repo commits only its own `AGENTS.md`. Thus a change to the
 shared rules does not need a change in each repo.
 
@@ -32,8 +36,8 @@ in that section must apply to all repos. A periodic process moves it into
 `SYSTEM.md` through a PR. See [docs/promotion.md](docs/promotion.md).
 
 **Short system prompt, deep docs.** Each session of each repo loads
-`SYSTEM.md`, so each rule has a cost in all sessions. `nix flake check`
-limits it to 8 KB. Put longer text in `docs/`. See
+`SYSTEM.md`, so each rule has a cost in all sessions. `check-instructions`
+limits it and `WORKFLOW.md` to 8 KB each. Put longer text in `docs/`. See
 [docs/system-prompt.md](docs/system-prompt.md).
 
 **No tool dependency.** Nothing here needs a specific agent runtime or Nix.

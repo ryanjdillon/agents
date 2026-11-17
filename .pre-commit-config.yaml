@@ -18,3 +18,5 @@ repos:
     rev: f7aa26b3ffb54bb032d2710a44296ec3b82a3f7e # frozen: v1.0.0
     hooks:
       - id: check-instructions
+        # The shared hook knows only AGENTS.md and SYSTEM.md.
+        files: ^(AGENTS|SYSTEM|WORKFLOW)\.md$

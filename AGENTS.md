@@ -1,8 +1,8 @@
 # agents
 
-This repo holds `SYSTEM.md`, the rules for agents in all my repos, and the
-docs and skills that go with it. Agent tools load `SYSTEM.md` as the system
-prompt. This file has the rules for work in this repo only.
+This repo holds `SYSTEM.md`, the rules for agents in all my repos,
+`WORKFLOW.md`, the rules for interactive coding sessions, and the docs and
+skills that go with them. Agent tools load them as the system prompt. This file has the rules for work in this repo only.
 
 ## Linear
 
@@ -23,10 +23,15 @@ just fmt
 
 ## Invariants
 
-- `SYSTEM.md` is 8 KB or smaller. `check-instructions` in
-  `ryanjdillon/workflows` enforces this.
+- `SYSTEM.md` and `WORKFLOW.md` are each 8 KB or smaller.
+  `check-instructions` in `ryanjdillon/workflows` enforces this.
   Move detail into `docs/` and leave a pointer. Do not increase the limit.
-- `SYSTEM.md` is for all repos. Do not put rules for this repo in it.
+- `SYSTEM.md` is for all repos and all agents. A rule that needs Linear or
+  sub-agents goes in `WORKFLOW.md`. Do not put rules for this repo in either.
+- Do not commit a file that joins `SYSTEM.md` and `WORKFLOW.md`. Consumers
+  join them.
+- Skill frontmatter has only `name` and `description`, each on one line. Some
+  consumers read only flat `key: value` lines.
 - Each rule in `SYSTEM.md` that has a doc ends with a `See docs/<topic>.md`
   pointer, and `docs/index.md` lists that doc.
 - Nothing here needs a specific agent runtime. Scripts use only bash or the
@@ -38,7 +43,7 @@ just fmt
 
 | When you change | Also update |
 | --- | --- |
-| A rule in `SYSTEM.md` | Its doc in `docs/` |
+| A rule in `SYSTEM.md` or `WORKFLOW.md` | Its doc in `docs/` |
 | A file in `docs/` (add or remove) | `docs/index.md` |
 | The admission test | `docs/system-prompt.md` |
 | The size limits | `check-instructions.py` in `ryanjdillon/workflows`, and `docs/system-prompt.md` |
