@@ -15,11 +15,17 @@ Build each circuit inside `with Circuit() as c:` and return `c`.
 ```python
 from skidl import Circuit, Net, Part
 
+
 def build():
     with Circuit() as c:
         vcc, gnd = Net("3V3"), Net("GND")
-        r1 = Part("Device", "R", value="10k",
-                  footprint="Resistor_SMD:R_0603_1608Metric", ref="R1")
+        r1 = Part(
+            "Device",
+            "R",
+            value="10k",
+            footprint="Resistor_SMD:R_0603_1608Metric",
+            ref="R1",
+        )
         r1[1] += vcc
         r1[2] += gnd
     return c
@@ -52,9 +58,11 @@ Count the errors on `skidl.logger.erc_logger`. Do not read
 ```python
 from skidl.logger import erc_logger
 
+
 def erc_error_count(c) -> int:
     c.ERC()
     return erc_logger.error.count
+
 
 def assert_erc_clean(c) -> None:
     if not c.parts:
@@ -71,10 +79,9 @@ def assert_erc_clean(c) -> None:
 
 ```python
 with Circuit() as bad:
-    u1 = Part("74xx", "74LS04", ref="U1",
-              footprint="Package_DIP:DIP-14_W7.62mm")
+    u1 = Part("74xx", "74LS04", ref="U1", footprint="Package_DIP:DIP-14_W7.62mm")
     clash = Net("CLASH")
-    clash += u1[2], u1[4]          # two outputs on one net
+    clash += u1[2], u1[4]  # two outputs on one net
     assert erc_error_count(bad) >= 1
 ```
 
