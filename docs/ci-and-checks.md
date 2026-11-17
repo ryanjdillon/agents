@@ -94,6 +94,9 @@ each run. The language setup actions cache with no configuration.
   skips it, a required check stays pending and the PR cannot merge.
 - A repo that builds Nix outputs as its product, for example a system config,
   runs Nix in its normal CI.
+- A repo whose toolchain exists only in Nix also runs Nix in its normal CI,
+  in its devshell. An example is a CAD or EDA toolchain that has no setup
+  action. Cache the Nix store, and the directories that the devshell builds.
 - Set `permissions: contents: read` at the top of each workflow. Give more
   permissions only to the job that needs them.
 - Set `persist-credentials: false` on `actions/checkout` when the job does not
