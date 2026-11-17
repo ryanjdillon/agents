@@ -34,7 +34,7 @@ jobs:
 
       - name: No template syntax in the prompt files
         # pi renders its system prompt as a template. Same as `just check-templates`.
-        run: "! grep -n '{{' SYSTEM.md WORKFLOW.md"
+        run: "test -f SYSTEM.md && test -f WORKFLOW.md && ! grep -n '{{' SYSTEM.md WORKFLOW.md"
 
       - uses: astral-sh/ruff-action@278981a28ce3188b1e39527901f38254bf3aac89 # v4.1.0
         with:
