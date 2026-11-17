@@ -1,6 +1,6 @@
 ---
 name: skidl
-description: Verified SKiDL 2.2.1 practices for Python schematics with KiCad libraries: circuit scope, no-connect pins, an ERC gate that can fail, footprint checks and tests. Use when you write, change or review a SKiDL circuit.
+description: Verified SKiDL 2.2.1 practices for Python schematics with KiCad libraries. Covers circuit scope, no-connect pins, an ERC gate that can fail, footprint checks and tests. Use when you write, change or review a SKiDL circuit.
 ---
 
 # SKiDL
@@ -19,7 +19,7 @@ def build():
     with Circuit() as c:
         vcc, gnd = Net("3V3"), Net("GND")
         r1 = Part("Device", "R", value="10k",
-                  footprint="Resistor_SMD:R_0603_1608Metric", tag="R1")
+                  footprint="Resistor_SMD:R_0603_1608Metric", ref="R1")
         r1[1] += vcc
         r1[2] += gnd
     return c
@@ -38,10 +38,11 @@ for pin in ("2", "4", "6"):
     j1[pin] += c.NC
 ```
 
-- Connect each unused pin to `c.NC`. SKiDL leaves these pins out of the
-  netlist.
-- Do not put two or more pins on one `NCNet`. SKiDL 2.2.1 writes it as an
-  ordinary net, and the PCB then shorts the pins.
+- Connect each unused pin to `c.NC`, the no-connect net of the circuit.
+  SKiDL leaves these pins out of the netlist. This is correct for any
+  number of pins.
+- Do not make your own `NCNet` and put two or more pins on it. SKiDL 2.2.1
+  writes it as an ordinary net, and the PCB then shorts the pins.
 
 ## ERC gate
 
@@ -70,7 +71,8 @@ def assert_erc_clean(c) -> None:
 
 ```python
 with Circuit() as bad:
-    u1 = Part("74xx", "74LS04", footprint="Package_DIP:DIP-14_W7.62mm", tag="U1")
+    u1 = Part("74xx", "74LS04", ref="U1",
+              footprint="Package_DIP:DIP-14_W7.62mm")
     clash = Net("CLASH")
     clash += u1[2], u1[4]          # two outputs on one net
     assert erc_error_count(bad) >= 1
@@ -87,11 +89,16 @@ with Circuit() as bad:
 
 ## Tests
 
-- Assert each important net by its exact set of `(part.tag, pin.num)`.
+- Assert each important net by its exact set of `(part.ref, pin.num)`.
+- `tag=` is not the reference. A part with tag `R9` can get the reference
+  `R3`. Use `ref` in each netlist assertion. Use tags only to find a part
+  in memory.
 - Assert that each unused pin satisfies `part[pin].net is c.NC`.
 - Generate the netlist and assert the exact set of net names in it.
-- Match a netlist node as `(ref "J1") (pin "2")`. A search for `J1.2` never
-  finds a match, so it can never fail.
+- The KiCad 9 netlist puts `(ref "J1")` and `(pin "2")` on separate lines.
+  Thus a substring search for a node never finds a match, and can never
+  fail. Match a node with a regex that accepts whitespace, for example
+  `\(ref "J1"\)\s*\(pin "2"\)`, or parse the s-expression.
 - For a board with only passive parts, ERC cannot find a wrong net on a
   pin. The pin-set assertions are the real check.
 
