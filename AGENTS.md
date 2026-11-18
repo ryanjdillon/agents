@@ -51,7 +51,7 @@ just fmt
 | A file in `docs/` (add or remove) | `docs/index.md` |
 | The admission test | `docs/system-prompt.md` |
 | The size limits | `check-instructions.py` in `ryanjdillon/workflows`, and `docs/system-prompt.md` |
-| The `ryanjdillon/workflows` pin | `.pre-commit-config.yaml` and both workflows in `.github/workflows/`, to the same release. Renovate moves them in one PR and merges it by rebase when the checks pass. |
+| The `ryanjdillon/workflows` pin | `.pre-commit-config.yaml` and both workflows in `.github/workflows/`, to the same release. Renovate moves them in one PR and merges it by rebase when the checks pass, except a major release. |
 | `scripts/promote.py` | `docs/promotion.md` and `scripts/test_promote.py` |
 | The `# SYSTEM.md` section format | `docs/promotion.md`, `templates/AGENTS.md` |
 | How a repo loads or adopts the rules | `docs/adoption.md`, `README.md` |

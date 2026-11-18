@@ -119,9 +119,13 @@ each run. The language setup actions cache with no configuration.
 - **Automerge only on green checks.** For a group you trust, such as
   `ryanjdillon/workflows`, set `automerge: true`, `automergeType: "pr"`,
   `automergeStrategy: "rebase"` and `platformAutomerge: false` in a package
-  rule. Renovate then merges the PR itself when every check passes. A private
-  repo on GitHub Free has no branch protection, so do not leave the merge to
-  the platform. Set `automerge: false` to pause a group.
+  rule, with `matchUpdateTypes: ["minor", "patch", "digest"]`, so a major
+  release waits for review. Renovate then merges the PR itself when every
+  check passes. A private repo on GitHub Free has no branch protection, so do
+  not leave the merge to the platform. Set `automerge: false` to pause a
+  group.
+- **Keep the preset at `#v1`.** Disable the `renovate-config` manager, so
+  Renovate does not pin the preset to a release.
 - **Audit known vulnerabilities** with `pip-audit`, `cargo deny`, or
   `osv-scanner`.
 - **Audit the workflows** with `zizmor`.

@@ -3,15 +3,20 @@
   "extends": ["github>ryanjdillon/workflows//renovate/default#v1"],
   "packageRules": [
     {
+      "description": "The shared preset stays at the floating #v1 tag (README of ryanjdillon/workflows): no PR that pins it to a release.",
+      "matchManagers": ["renovate-config"],
+      "enabled": false
+    },
+    {
       "description": "Every automerge: Renovate merges the PR itself, by rebase, when every check passes. platformAutomerge is off, so a merge does not depend on branch protection.",
       "matchPackageNames": ["*"],
       "automergeStrategy": "rebase",
       "platformAutomerge": false
     },
     {
-      "description": "The ryanjdillon/workflows pins (grouped by the shared preset): automerge on green checks.",
+      "description": "The ryanjdillon/workflows pins (grouped by the shared preset): automerge on green checks. A major release waits for the owner.",
       "matchPackageNames": ["/(^|/)ryanjdillon/workflows$/"],
-      "groupName": "ryanjdillon/workflows",
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "automerge": true,
       "automergeType": "pr"
     }
