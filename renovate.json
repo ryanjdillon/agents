@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>ryanjdillon/workflows//renovate/default#v1"],
+  "extends": ["github>ryanjdillon/workflows//renovate/default#v1", ":semanticCommits"],
   "packageRules": [
     {
       "description": "The shared preset stays at the floating #v1 tag (README of ryanjdillon/workflows): no PR that pins it to a release.",
