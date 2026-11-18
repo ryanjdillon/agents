@@ -1,4 +1,19 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>ryanjdillon/workflows//renovate/default#v1"]
+  "extends": ["github>ryanjdillon/workflows//renovate/default#v1"],
+  "packageRules": [
+    {
+      "description": "Every automerge: Renovate merges the PR itself, by rebase, when every check passes. platformAutomerge is off, so a merge does not depend on branch protection.",
+      "matchPackageNames": ["*"],
+      "automergeStrategy": "rebase",
+      "platformAutomerge": false
+    },
+    {
+      "description": "The ryanjdillon/workflows pins (grouped by the shared preset): automerge on green checks.",
+      "matchPackageNames": ["/(^|/)ryanjdillon/workflows$/"],
+      "groupName": "ryanjdillon/workflows",
+      "automerge": true,
+      "automergeType": "pr"
+    }
+  ]
 }

@@ -116,6 +116,12 @@ each run. The language setup actions cache with no configuration.
   `renovate.json`: `github>ryanjdillon/workflows//renovate/default#v1`. It
   waits 7 days for a release, pins actions by digest, and updates the prek
   `rev:` pins and the lockfiles. See the README of `ryanjdillon/workflows`.
+- **Automerge only on green checks.** For a group you trust, such as
+  `ryanjdillon/workflows`, set `automerge: true`, `automergeType: "pr"`,
+  `automergeStrategy: "rebase"` and `platformAutomerge: false` in a package
+  rule. Renovate then merges the PR itself when every check passes. A private
+  repo on GitHub Free has no branch protection, so do not leave the merge to
+  the platform. Set `automerge: false` to pause a group.
 - **Audit known vulnerabilities** with `pip-audit`, `cargo deny`, or
   `osv-scanner`.
 - **Audit the workflows** with `zizmor`.
