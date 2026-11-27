@@ -62,8 +62,17 @@ solution. Do not rewrite the work unless the author asks you to.
 - Mark each item as **blocker**, **should-fix** or **note**.
 - Give each item a `file:line` or the measured number.
 - Tell what fails and why.
-- Start the verdict with `Verdict: approve` or
-  `Verdict: request changes (N blockers)`.
+- The first line of the verdict comment is exactly `Verdict: approve` or
+  `Verdict: request changes (N blockers)`. Plain text: no `#`, no `**`,
+  nothing before it. Use `1 blocker` for one blocker. Example first line:
+
+  ```text
+  Verdict: request changes (2 blockers)
+  ```
+
+- If the review has its own issue, give it the title
+  `Review PR #<n> round <k>` or `Review <branch>@<sha> round <k>`. Round 1
+  is the first review. Each new review of the same work adds 1.
 - List the blockers, then the should-fix items, then the notes.
 - Only a blocker stops the approval. A should-fix item never causes a new
   review round. The author folds it into the next push.
