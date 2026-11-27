@@ -64,15 +64,18 @@ solution. Do not rewrite the work unless the author asks you to.
 - Tell what fails and why.
 - The first line of the verdict comment is exactly `Verdict: approve` or
   `Verdict: request changes (N blockers)`. Plain text: no `#`, no `**`,
-  nothing before it. Use `1 blocker` for one blocker. Example first line:
+  nothing before it. N is 1 or more. Write `1 blocker` for one blocker.
+  Example first line:
 
   ```text
   Verdict: request changes (2 blockers)
   ```
 
 - If the review has its own issue, give it the title
-  `Review PR #<n> round <k>` or `Review <branch>@<sha> round <k>`. Round 1
-  is the first review. Each new review of the same work adds 1.
+  `Review PR #<n> round <k>` or `Review <branch>@<sha> round <k>`. `<sha>`
+  is 7 to 40 lowercase hex characters. For a review of several linked PRs,
+  use `Review PR #<n>+#<m> round <k>`. Round 1 is the first review. Add 1
+  to the round for each new review of the same work.
 - List the blockers, then the should-fix items, then the notes.
 - Only a blocker stops the approval. A should-fix item never causes a new
   review round. The author folds it into the next push.
