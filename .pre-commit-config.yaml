@@ -15,7 +15,7 @@ repos:
         language: system
         pass_filenames: false
   - repo: https://github.com/ryanjdillon/workflows
-    rev: ebb73dbf81f54d7bf8ddb23e5b8e0783e7926acd # frozen: v1.2.2
+    rev: 1780e7acefae60e74038e392a7e6d3e4e2b06210 # frozen: v1.4.0
     hooks:
       - id: check-instructions
         # The shared hook knows only AGENTS.md and SYSTEM.md.

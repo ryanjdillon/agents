@@ -14,4 +14,4 @@ permissions:
 
 jobs:
   nix:
-    uses: ryanjdillon/workflows/.github/workflows/nix-check.yml@ebb73dbf81f54d7bf8ddb23e5b8e0783e7926acd # v1.2.2
+    uses: ryanjdillon/workflows/.github/workflows/nix-check.yml@1780e7acefae60e74038e392a7e6d3e4e2b06210 # v1.4.0
